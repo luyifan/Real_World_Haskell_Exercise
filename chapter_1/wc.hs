@@ -4,6 +4,3 @@ main = interact wordCount
 -- lines change input to list split by \n
 -- length get the length of list
 -- show change integer to string
-
-
-
