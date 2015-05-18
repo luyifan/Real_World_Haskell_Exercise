@@ -40,12 +40,21 @@ firstWords s = unlines (map each (lines s))
 
 -- Write a program that transposes the text in a file. For instance, it should
 -- convert "hello\nworld\n" to "hw\neo\nlr\nll\nod\n".
-isNewLine c | c == '\n' = True
-            | otherwise = False
+-- convert "say\nhello\n to\nworld!\n" to "sh w\naeto\nylor\n l l\n o d\n !\n"
 
-joinEm c1 c2 = c1 : ( c2 : [] )
+testContent= "say\nhello\n to\nworld!\n"
 
-jumble s = unlines (zipWith joinEm front tailBack)
-    where (front, back) = break isNewLine s
-          tailBack = tail back
-         
+converter testContent = unlines ( myTranspose ( lines testContent ) ' ' )
+myTranspose :: [[a]] -> a -> [[a]]
+myTranspose xlist fill 
+	| null xlist = []
+	| all null xlist = []
+	| otherwise = (map myHead xlist) : myTranspose (map myTail xlist) fill
+      where myHead onelist 
+	    	| null onelist = fill 
+		| otherwise = head onelist 
+	    myTail onelist
+	    	| null onelist = []
+		| otherwise = tail onelist 
+
+
