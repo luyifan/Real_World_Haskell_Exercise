@@ -56,5 +56,11 @@ myTranspose xlist fill
 	    myTail onelist
 	    	| null onelist = []
 		| otherwise = tail onelist 
+-- convert "say\nhello\n to\nworld!\n" to "sh w\naeto\nylor\n"
+myTranspose2 :: [[a]] -> [[a]]
+myTranspose2 xlist 
+	| null xlist = []
+	| any null xlist = []
+	| otherwise = (map head xlist) : myTranspose2 (map tail xlist)
 
-
+converter2 content = unlines ( myTranspose2 ( lines content ) )
