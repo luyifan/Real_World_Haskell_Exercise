@@ -39,4 +39,5 @@ getArray :: JValue -> Maybe [JValue]
 getArray (JArray a) = Just a
 getArray _ = Nothing
 
+isNull :: JValue -> Bool 
 isNull v = v == JNull

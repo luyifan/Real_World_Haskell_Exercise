@@ -1,19 +1,22 @@
 -- file: PrettyJSON.hs
 
-import SimpleJSON
+module PrettyJSON 
+ ( 
+	renderJValue
+ ) where 
 
-data Doc = ToBeDefined
-	deriving (Show)
 
-string :: String -> Doc
-string str = undefined
-text :: String -> Doc
-text str = undefined
-double :: Double -> Doc
-double num = undefined
+import SimpleJSON (JValue(..))
+import Prettify (Doc, (<>) , string , char , double , fsep , hcat , punctuate , text , compact , series , pretty )
 renderJValue :: JValue -> Doc
 renderJValue (JBool True) = text "true"
 renderJValue (JBool False) = text "false"
 renderJValue JNull = text "null"
 renderJValue (JNumber num) = double num
 renderJValue (JString str) = string str
+renderJValue (JArray  ary) = series '[' ']' renderJValue ary 
+renderJValue (JObject obj) = series '{' '}' field obj
+	where field (k,v) = string k
+       			<> char ':'
+			<> renderJValue v 
+
