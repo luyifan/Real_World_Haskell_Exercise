@@ -15,7 +15,7 @@ empty :: Doc
 empty = Empty 
 
 char :: Char -> Doc 
-char c = Char c 
+char  = Char  
 
 text :: String -> Doc 
 text "" = Empty 
@@ -129,4 +129,42 @@ punctuate :: Doc -> [Doc] -> [Doc]
 punctuate p [] = [] 
 punctuate p [d] = [d]
 punctuate p (d:dlist) = ( d <> p ) : punctuate p dlist 
+
+
+
+fill :: Int -> Doc -> Doc
+fill width doc = processNode 0 [doc]
+	where processNode col (d:ds) =
+       		case d of 
+		   	Empty -> processNode col ds 
+			Char c -> Char c <> processNode (col + 1) ds 
+			Text s -> Text s <> processNode (col + length s) ds 
+			Line -> spaceOut col <> Line <> processNode 0 ds 
+			a `Concat` b -> processNode col (a:b:ds)
+			x `Union` y ->  processNode col (x:ds) `Union` processNode col (y:ds)
+	      processNode col [] = spaceOut col
+	      spaceOut col = Text( replicate (width-col) ' ' )
+
+
+otherfill :: Int -> Doc -> Doc
+otherfill width x = x <> text ( replicate len ' ' )
+	where len = width - length ( compact x )
+
+
+nest :: Int -> Doc -> Doc
+nest indentLevel doc = processNode 0 [0] [doc]
+	where processNode col nestStack (d:ds) = 
+       		case d of 
+			Empty -> Empty <> processNode col nestStack ds 
+			Char c -> Char c <> processNode (col+1) newNestStack ds 
+				where newNestStack = case c of 
+			   		c | c == '{' || c == '[' -> (col + 1 + indentLevel) : nestStack 
+			      		c | c == '}' || c == ']' -> tail nestStack 
+					otherwise 		 -> nestStack 
+			Text s -> Text s <> processNode (col+length s) nestStack ds
+			Line -> Line <> indent (head nestStack ) <> processNode 0 nestStack ds 
+			a `Concat` b -> processNode col nestStack (a:b:ds)
+			x `Union`  y -> processNode col nestStack (x:ds) `Union` processNode col nestStack (y:ds)
+	      processNode col newNestStack [] = Empty 
+	      indent numberSpace = Text ( replicate numberSpace ' ' ) 
 
