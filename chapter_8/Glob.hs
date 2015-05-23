@@ -75,12 +75,20 @@ listPlain dirName baseName = do
 -- ghci >:browse System.Posix.Files
 -- System.Posix.Files.fileExist :: FilePath -> IO Bool
 
-
+-- Need todo1
 -- The * wild card only matches names within a single directory. Many
 -- shells have an extended wild card syntax, **, that matches names
 -- recursively in all directories. For example, **.c would mean “match
 -- a name ending in .c in this directory or any subdirectory at any depth”.
 -- Implement matching on ** wildcards.
 -- 
--- Need todo 
-
+-- Need todo2
+--  Write a version of globToRegex that uses 
+--  -- file: ch08/GlobRegexEither.hs
+--  type GlobError = String
+--  globToRegex :: String -> Either GlobError String
+--
+-- Need todo3
+--Modify the type signature of namesMatching so that it encodes the
+--possibility of a bad pattern, and make it use your rewritten globToRegex
+--function
