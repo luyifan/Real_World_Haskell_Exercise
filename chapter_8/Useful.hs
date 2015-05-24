@@ -60,6 +60,11 @@ cc2cpp =  mapM  (renameWith (flip replaceExtension ".cpp")) =<< (namesMatching "
 --    -- Defined in ‘GHC.Num’
 --   infixl 6 +
 -- 而mapM是函数,函数的优先级是10级，所以mapM先进行处理，所以相当如下面
+-- 只有操作符有优先级，当操作符号用括号括起来就变成了函数，而函数没有优先级
+-- 不过可以理解为函数像10的优先级
+-- When enclosed in parens, it's not an infix operator, and so doesn't have
+-- a priority like that, but ordinary function application binds more
+-- tightly than any infix operator, so yeah, kind of like 10
 cc2cpp2 = (mapM  (renameWith (flip replaceExtension ".cpp"))) =<< (namesMatching "*.cc")
 cc2cpp3 = (=<<) (mapM  (renameWith (flip replaceExtension ".cpp")))(namesMatching "*.cc")
 --这样就可以解释啦
