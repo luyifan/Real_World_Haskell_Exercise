@@ -59,7 +59,7 @@ cc2cpp =  mapM  (renameWith (flip replaceExtension ".cpp")) =<< (namesMatching "
 --    ...
 --    -- Defined in ‘GHC.Num’
 --   infixl 6 +
--- 可以看出=<<的优先级高，所以正确的括号包围方法
+-- 而mapM是函数,函数的优先级是10级，所以mapM先进行处理，所以相当如下面
 cc2cpp2 = (mapM  (renameWith (flip replaceExtension ".cpp"))) =<< (namesMatching "*.cc")
 cc2cpp3 = (=<<) (mapM  (renameWith (flip replaceExtension ".cpp")))(namesMatching "*.cc")
 --这样就可以解释啦
