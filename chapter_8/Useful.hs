@@ -40,5 +40,30 @@ rename oldpath newpath = do
 --
 --书上说=<< 把IO [FilePath]
 --传递到左边，变成[FilePath]不过通过测试感觉不对，不然的话。加括号应该不会出错的
+--
+
 cc2cpp =  mapM  (renameWith (flip replaceExtension ".cpp")) =<< (namesMatching "*.cc")
+-- 其实不能那么拆分，其实这里的=<< 是中缀的形式
+-- 所以才能解释下面的
+-- (=<<) :: Monad m => ( a -> m b ) -> m a -> m b
+--(=<<) (namesMatching "*.cc")::Monad m => ([FilePath] -> m b) -> m b
+--为什么(=<<)可以不是接受一个函数，而是接受m a
+--因为其实需要接受的函数 f应该在(=<<)的左边，即f (=<<) (namesMatching "*.cc") ,所以得到的类型就可以解释啦
+--现在要看mapM和=<<的优先级
+--通过info mapM和info (=<<)可以看出如下
+--ghci> :info map
+--map :: (a -> b) -> [a] -> [b] 	-- Defined in ‘GHC.Base’
+--ghci> :info (+)
+--class Num a where
+--  (+) :: a -> a -> a
+--    ...
+--    -- Defined in ‘GHC.Num’
+--   infixl 6 +
+-- 可以看出=<<的优先级高，所以正确的括号包围方法
+cc2cpp2 = (mapM  (renameWith (flip replaceExtension ".cpp"))) =<< (namesMatching "*.cc")
+cc2cpp3 = (=<<) (mapM  (renameWith (flip replaceExtension ".cpp")))(namesMatching "*.cc")
+--这样就可以解释啦
+--(=<<) (mapM  (renameWith (flip replaceExtension ".cpp"))) :: IO [FilePath] -> [FilePath]
+-- 这里主要是优先级和=<<为中缀表示的问题，
+-- 其次为什么mapM info没有优先级显示，目前还没有理解
 
