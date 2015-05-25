@@ -1,4 +1,24 @@
 -- file: BetterPredicate.hs 
+module BetterPredicate (
+	Predicate(..),
+	betterFind,
+	getFileSize,
+	InfoP(..),
+	pathP,
+	sizeP,
+	equalP,
+	liftP,
+	greaterP,
+	lesserP,
+	liftP2,
+	andP,
+	orP,
+	constP,
+	liftPath,
+	(==?),
+	(&&?),
+	(>?)
+) where 
 import Control.Monad (filterM) 
 import System.Directory ( Permissions(..) , getModificationTime , getPermissions ) 
 import Data.Time.Clock (UTCTime(..))
