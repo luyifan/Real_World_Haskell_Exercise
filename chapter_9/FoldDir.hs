@@ -1,7 +1,7 @@
 -- file: FoldDir.hs
 module FoldDir (
 	Iterate(..),
-	Iterator(..),
+	Iterator,
 	foldTree,
 	atMostThreePictures,
 	countDirectories 

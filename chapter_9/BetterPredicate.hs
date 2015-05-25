@@ -1,9 +1,9 @@
 -- file: BetterPredicate.hs 
 module BetterPredicate (
-	Predicate(..),
+	Predicate,
 	betterFind,
 	getFileSize,
-	InfoP(..),
+	InfoP,
 	pathP,
 	sizeP,
 	equalP,
@@ -123,4 +123,5 @@ infix 4 ==?
 infixr 3 &&?
 infix 4 >?
 myTest4 = liftPath takeExtensions ==? ".cpp" &&? sizeP >? 1310172 
-
+-- Todo List
+--Add the ability to find out who owns a directory entry to your code. Make this information available to predicates.
