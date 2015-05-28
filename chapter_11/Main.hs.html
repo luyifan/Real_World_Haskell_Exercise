@@ -1,0 +1,64 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css">
+span.lineno { color: white; background: #aaaaaa; border-right: solid white 12px }
+span.nottickedoff { background: yellow}
+span.istickedoff { background: white }
+span.tickonlyfalse { margin: -1px; border: 1px solid #f20913; background: #f20913 }
+span.tickonlytrue  { margin: -1px; border: 1px solid #60de51; background: #60de51 }
+span.funcount { font-size: small; color: orange; z-index: 2; position: absolute; right: 20 }
+span.decl { font-weight: bold }
+span.spaces    { background: white }
+</style>
+</head>
+<body>
+<pre>
+<span class="lineno">    1 </span>module Main where 
+<span class="lineno">    2 </span>import QC
+<span class="lineno">    3 </span>import Test.QuickCheck
+<span class="lineno">    4 </span>
+<span class="lineno">    5 </span>anal :: Args 
+<span class="lineno">    6 </span><span class="decl"><span class="istickedoff">anal = Args {</span>
+<span class="lineno">    7 </span><span class="spaces">    </span><span class="istickedoff">replay = Nothing,</span>
+<span class="lineno">    8 </span><span class="spaces">    </span><span class="istickedoff">maxSuccess = 1000,</span>
+<span class="lineno">    9 </span><span class="spaces">    </span><span class="istickedoff">maxDiscardRatio = 1,</span>
+<span class="lineno">   10 </span><span class="spaces">    </span><span class="istickedoff">maxSize = 1000,</span>
+<span class="lineno">   11 </span><span class="spaces">    </span><span class="istickedoff">chatty = True</span>
+<span class="lineno">   12 </span><span class="spaces"></span><span class="istickedoff">}</span></span>
+<span class="lineno">   13 </span>
+<span class="lineno">   14 </span>minimal :: Args 
+<span class="lineno">   15 </span><span class="decl"><span class="nottickedoff">minimal = Args {</span>
+<span class="lineno">   16 </span><span class="spaces">    </span><span class="nottickedoff">replay = Nothing,</span>
+<span class="lineno">   17 </span><span class="spaces">    </span><span class="nottickedoff">maxSuccess = 200,</span>
+<span class="lineno">   18 </span><span class="spaces">    </span><span class="nottickedoff">maxDiscardRatio = 1,</span>
+<span class="lineno">   19 </span><span class="spaces">    </span><span class="nottickedoff">maxSize = 200,</span>
+<span class="lineno">   20 </span><span class="spaces">    </span><span class="nottickedoff">chatty = True</span>
+<span class="lineno">   21 </span><span class="spaces"></span><span class="nottickedoff">}</span></span>
+<span class="lineno">   22 </span>
+<span class="lineno">   23 </span>runTest :: Args -&gt; IO()
+<span class="lineno">   24 </span><span class="decl"><span class="istickedoff">runTest args = do </span>
+<span class="lineno">   25 </span><span class="spaces">        </span><span class="istickedoff">f prop_empty_id &quot;empty_id ok?&quot;</span>
+<span class="lineno">   26 </span><span class="spaces">        </span><span class="istickedoff">f prop_char &quot;char ok?&quot;</span>
+<span class="lineno">   27 </span><span class="spaces">        </span><span class="istickedoff">f prop_text &quot;text ok?&quot;</span>
+<span class="lineno">   28 </span><span class="spaces">        </span><span class="istickedoff">f prop_line &quot;line ok?&quot;</span>
+<span class="lineno">   29 </span><span class="spaces">        </span><span class="istickedoff">f prop_double &quot;double ok?&quot;</span>
+<span class="lineno">   30 </span><span class="spaces">        </span><span class="istickedoff">f prop_hcat &quot;hcat ok?&quot;</span>
+<span class="lineno">   31 </span><span class="spaces">        </span><span class="istickedoff">f prop_punctuate &quot;punctuate ok?&quot;</span>
+<span class="lineno">   32 </span><span class="spaces">        </span><span class="istickedoff">where f prop str = do </span>
+<span class="lineno">   33 </span><span class="spaces">                </span><span class="istickedoff">putStrLn str </span>
+<span class="lineno">   34 </span><span class="spaces">                </span><span class="istickedoff">quickCheckWithResult args prop </span>
+<span class="lineno">   35 </span><span class="spaces">                </span><span class="istickedoff">return <span class="nottickedoff">()</span></span></span>
+<span class="lineno">   36 </span>main :: IO () 
+<span class="lineno">   37 </span><span class="decl"><span class="istickedoff">main = do </span>
+<span class="lineno">   38 </span><span class="spaces">     </span><span class="istickedoff">putStrLn &quot;Choose test depth&quot;</span>
+<span class="lineno">   39 </span><span class="spaces">     </span><span class="istickedoff">putStrLn &quot;1. Anal&quot;</span>
+<span class="lineno">   40 </span><span class="spaces">     </span><span class="istickedoff">putStrLn &quot;2. Minimal&quot;</span>
+<span class="lineno">   41 </span><span class="spaces">     </span><span class="istickedoff">depth &lt;- readLn</span>
+<span class="lineno">   42 </span><span class="spaces">     </span><span class="istickedoff">if <span class="tickonlytrue">depth == 1</span> </span>
+<span class="lineno">   43 </span><span class="spaces">     </span><span class="istickedoff">then runTest anal</span>
+<span class="lineno">   44 </span><span class="spaces">     </span><span class="istickedoff">else <span class="nottickedoff">runTest minimal</span></span></span> 
+
+</pre>
+</body>
+</html>
