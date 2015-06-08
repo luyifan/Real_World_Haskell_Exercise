@@ -1,4 +1,5 @@
 -- file: Parse.hs
+module Parse where  
 import Data.Int ( Int64 ) 
 import qualified Data.ByteString.Lazy as L
 import qualified Data.ByteString.Lazy.Char8 as L8
@@ -106,7 +107,7 @@ p ==>& f = p ==> \_ -> f
 skipSpace :: Parse () 
 skipSpace = parseWhileWith w2c isSpace ==>& identity ()
 assert :: Bool -> String -> Parse ()
-assert True _ = identity 
+assert True _ = identity ()
 assert False err = bail err
 parseNat :: Parse Int 
 parseNat = parseWhileWith w2c isDigit ==> \digits -> 

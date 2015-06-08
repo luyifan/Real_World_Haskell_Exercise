@@ -77,4 +77,3 @@ parseP5_take2 s =
 	\(maxGrey,s) -> getBytes 1 s 	>>?
 	(getBytes (width*height) . snd) >>?
 	\(bitmap,s) -> Just (Greymap width height maxGrey bitmap , s )
-
