@@ -170,3 +170,7 @@ instance (Eq a, Show a, Num a) => Show (Units a) where
 	show (Units xa ua) = show xa ++ "_" ++ prettyShow (simplify ua)
 test :: (Floating a) => a
 test = pi * 2 + 3
+
+--TODO
+--Exercises
+--Extend the prettyShow function to remove unnecessary parentheses.
